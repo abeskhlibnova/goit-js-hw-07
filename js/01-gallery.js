@@ -4,12 +4,8 @@ import { galleryItems } from "./gallery-items.js";
 const galleryContainer = document.querySelector(".gallery");
 const imgContainer = createGalleryItemsMarkup(galleryItems);
 
-// const ddd = galleryContainer.getAttribute("data-source");
-// console.log("ddd", ddd);
-
 galleryContainer.insertAdjacentHTML("beforeend", imgContainer);
 galleryContainer.addEventListener("click", onGalleryContainerClick);
-galleryContainer.addEventListener("keydown", onKeyEscClose);
 
 function createGalleryItemsMarkup(galleryItems) {
   return galleryItems
@@ -36,7 +32,6 @@ function onGalleryContainerClick(evt) {
   if (!evt.target.classList.contains("gallery__image")) {
     return;
   }
-  console.log(evt.target);
 
   const instance = basicLightbox.create(`
   <div class="modal">
@@ -46,23 +41,11 @@ function onGalleryContainerClick(evt) {
 `);
   instance.show();
 
-  const KEY_CODE_CLOSE = 'Escape';
-  if(evt.code === KEY_CODE_CLOSE) {
-    instance.close()
-  }
-}
-
+  window.onkeydown = function( event ) {
+    if ( event.keyCode == 27 ) {
+    instance.close();
+    };
+};
+};
 
 console.log(galleryItems);
-
-// DoDeLat+++++++++++++++++=============================================
-
-// function onKeyEscClose(evt){
-//   console.log(evt.code);
-//   const KEY_CODE_CLOSE = 'Escape';
-//   if(evt.code === KEY_CODE_CLOSE) {
-    
-//   }
-
-// }
-// basicLightbox--visible
