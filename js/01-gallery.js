@@ -32,20 +32,30 @@ function onGalleryContainerClick(evt) {
   if (!evt.target.classList.contains("gallery__image")) {
     return;
   }
+createLightbox(evt);
+};
 
+function createLightbox(evt) {
   const instance = basicLightbox.create(`
   <div class="modal">
     <img
       src="${evt.target.dataset.source}" width="800" height="600"" />
   </div>
-`);
+`, {onShow: instance => {
+  window.addEventListener('keydown', onEscClose);
+},
+onClose: instance => {
+  window.removeEventListener('keydown', onEscClose)
+},
+});
   instance.show();
 
-  window.onkeydown = function( event ) {
-    if ( event.keyCode == 27 ) {
-    instance.close();
-    };
-};
+  function onEscClose(evt) {
+    if(evt.key === "Escape") {
+      instance.close();
+      return;
+    }
+  }
 };
 
 console.log(galleryItems);
